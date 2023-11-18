@@ -27,13 +27,13 @@ function BestModel() {
         console.log(`Selected option: ${selectedValue}`);
     };
 
-    var modelInfo = 'Logistic Regression: 80% -  Our model excels with an 80% accuracy rate, making it a reliable tool for data-driven predictions. We’re continuously working to improve its accuracy further.';
+    var modelInfo = 'After evaluating three models on your dataset, the results indicate that the Neural Networks model outperforms the others with an accuracy of 84%, followed by Logistic Regression at 80%, and Random Forest at 75%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
 
     //Filter data on the dropdown
     if (selectedOption === 'Confusion Matrix') {
         //Change value when dropdown is on 'Education'
         items = { heading: 'Confusion Matrix'}
-        modelInfo = 'Random Forest : 75% - Our model is performing well and making accurate predictions for most cases. We’re continuously working to improve its accuracy further.';
+        modelInfo = 'After evaluating three models on your dataset, the results indicate that the Neural Networks model outperforms the others with an accuracy of 84%, followed by Logistic Regression at 80%, and Random Forest at 75%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
     }
 
 
@@ -54,7 +54,7 @@ function BestModel() {
             <div className="right-panel">
                 <div className="header">
                     <div className='top-left'>
-                        <h3>Best Model: bjfjf</h3>
+                        <h3>Best Model: Neural Networks</h3>
                     </div>
                     <div className="top-right">
                         {/* Dropdown */}
@@ -73,7 +73,7 @@ function BestModel() {
                                 <div className='card-img'><p>img</p></div>
                             </div>
                         </div>
-                        <div className='model-info' style={{ marginLeft: 'auto', marginRight: 'auto', width: '600px' }}>
+                        <div className='model-info' style={{ marginLeft: 'auto', marginRight: 'auto', width: '600px',height:'200px' }}>
                             <img src={info} alt="info" className="logo" />
                             <p style={{ margin: '0' }}>{modelInfo}</p>
                         </div>

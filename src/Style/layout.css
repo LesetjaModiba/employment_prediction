@@ -204,16 +204,16 @@
     /* background-color: #49EB59; */
     height: 620px;
     width: 1200px;
-    border-top-left-radius: 15px;
+    /* border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-right-radius: 15px; */
     overflow: hidden;
     box-shadow: 2px 2px 5px #17171757;
-    overflow-y: auto;
+    overflow: auto;
 }
 .table-dataset-container::-webkit-scrollbar {
-    background-color: transparent;
+    /* background-color: transparent; */
     /* hide scrollbar thumb */
 }
 

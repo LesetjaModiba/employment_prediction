@@ -5,6 +5,7 @@ import dataset from '../Images/dataset.png';
 import accuracy from '../Images/percent.png';
 import dashboard from '../Images/dashboard (1).png';
 import visual from '../Images/pie-chart.png';
+// import province_bar from '../Images/province_bar.png'
 import React from 'react';
 import '../Style/layout.css';
 import { useState } from 'react';
@@ -19,7 +20,8 @@ function Visualisations() {
   const [selectedOption, setSelectedOption] = useState('');
 
   //Initial value when dropdown is on 'Classification report'
-  var items = { heading: 'Classification Report' };
+  var items = { heading: 'Bar Chart - Province' };
+  var chartInfo = 'In the training data, candidates from the Western Cape are the most likely to get a positive outcome, while those from the North West province are least likely.';
   // var title = 'Bar Chart - Provnce'
   // Bar Chart - Geoography
   // Box Plot
@@ -30,8 +32,7 @@ function Visualisations() {
     console.log(`Selected option: ${selectedValue}`);
   };
 
-  var chartInfo = 'Logistic Regression: 80% -  Our model excels with an 80% accuracy rate, making it a reliable tool for data-driven predictions. We’re continuously working to improve its accuracy further.';
-
+  
 
 
   const data = [10, 25, 15, 30, 20, 32, 34, 35, 12];
@@ -388,44 +389,69 @@ function Visualisations() {
     }, []);  // Empty dependency array means this effect will run once on mount
 
 
-  // var display = useState()
-  // var [display, setDisplay] = useState('');
-  // setDisplay(svgRef);
-  // var display = svgRef
   var display = 'province';
   //Filter data on the dropdown
-  if (selectedOption.includes('Histogram')) {
-    //Change value when dropdown is on 'Education'
-    // setDisplay(svgHistRef);
-    // display = svgHistRef;
-    display = 'hist';
-    items = { heading: 'Histogram' }
-    chartInfo = 'Histogram info.';
+  if (selectedOption.toLocaleLowerCase().trim === 'Bar Chart - Province'.toLocaleLowerCase().trim()) {
+    //Change value when dropdown is on 'Province'
+    display = 'province';
+    items = { heading: 'Province' }
+    chartInfo = 'In the training data, candidates from the Western Cape are the most likely to get a positive outcome, while those from the North West province are least likely.';
     console.log(display)
   }
-  if (selectedOption === 'Bar Chart - Geography') {
-    //Change value when dropdown is on 'Education'
-    // setDisplay(svgGeoRef);
-    // display =svgGeoRef;
+  if (selectedOption.toLocaleLowerCase().trim() === 'Histogram'.toLocaleLowerCase().trim()) {
+    //Change value when dropdown is on 'Hist'
+    display = 'hist';
+    items = { heading: 'Histogram' }
+    chartInfo = 'The ages of candidates with a positive outcome and those with a negative outcome seem to follow a similar distribution.';
+    console.log(display)
+  }
+  if (selectedOption.toLocaleLowerCase().trim() === 'Bar Chart - Geography'.toLocaleLowerCase().trim()) {
+    //Change value when dropdown is on 'Geo'
     display = 'geo'
     items = { heading: 'Bar Chart - Geography' }
-    chartInfo = 'Geography bar chart.';
+    chartInfo = 'We see that people from "Urban" areas are most likely to get a positive outcome.';
     console.log(display)
   } 
-  if (selectedOption === 'Box Plot') {
-    //Change value when dropdown is on 'Education'
-    // setDisplay(svgGeoRef);
-    // display =svgGeoRef;
+  if (selectedOption.toLocaleLowerCase().trim() === 'Box Plot'.toLocaleLowerCase().trim()) {
+    //Change value when dropdown is on 'box plot'
     display = 'box-plot'
-    items = { heading: 'Bar Chart - Geography' }
-    chartInfo = 'Geography bar chart.';
+    items = { heading: 'Box Plot' }
+    chartInfo = 'The presence of many points below the first quartile suggests a left-skewed skewed distribution, with many outliers on the lower end. To get more details, we can use the pandas.DataFrame.describe() function..';
     console.log(display)
   } 
   
+  var [imgURL,setImageURL] = useState('')
 
 
+  useEffect(() => {
+    // Replace 'YOUR_FILE_ID' with the actual file ID from your Google Drive
+    const fileId = 'https://drive.google.com/file/d/1-P8Apec084SEc7x9MwX0PoS4cyxFEfo0/view?usp=drive_link';
+    const clientId = '794003993201-uff34hnkefdicv11g4kdtako4jbm73di.apps.googleusercontent.com';
+    const apiKey = 'AIzaSyD6h8g14NpALf-E2FNtzBzij2YWjkzdsZU';
 
+    // Google Drive API endpoint
+    const endpoint = `https://www.googleapis.com/drive/v3/files/${fileId}?key=${apiKey}`;
 
+    // Fetch the image details from Google Drive
+    fetch(endpoint, {
+      headers: {
+        Authorization: `Bearer ${clientId}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Get the thumbnail link or download link depending on your requirements
+        const thumbnailLink = data.thumbnailLink;
+        const downloadLink = data.webContentLink;
+
+        // Set the image URL to be displayed
+        setImageURL(downloadLink || thumbnailLink);
+        console.log('url', imgURL)
+      })
+      .catch((error) => {
+        console.error('Error fetching image:', error);
+      });
+  }, []);
 
   return (
     <div className="layout">
@@ -444,12 +470,12 @@ function Visualisations() {
       <div className="right-panel">
         <div className="header">
           <div className='top-left'>
-            <h3>Best Model: bjfjf</h3>
+            <h3>Visualisations</h3>
           </div>
           <div className="top-right">
             {/* Dropdown */}
             <select value={selectedOption} onChange={handleChange}>
-              <option value="Bar Chart - Provnce">'Bar Chart - Provnce</option>
+              <option value="Bar Chart - Province">Bar Chart - Province</option>
               <option value="Bar Chart - Geography">Bar Chart - Geography</option>
               <option value="Histogram">Histogram</option>
               <option value="Box Plot">Box Plot</option>
@@ -464,6 +490,8 @@ function Visualisations() {
                 <div className='card-header'><p>{items.heading}</p></div>
 
                 <div><div style={{ margin: '30px' }} className={display}></div></div>
+                {/* <div><img src={imgURL} alt="Logo" style={{height:'350px',width:'680px', marginLeft:'62px'}}/></div> */}
+
               </div>
             </div>
             <div className='model-info' style={{ marginLeft: 'auto', marginRight: 'auto', width: '600px' }}>

@@ -30,7 +30,7 @@ function Dashboard() {
    //Filter data on the dropdown
   if (selectedOption === 'Education') {
     //Change value when dropdown is on 'Education'
-    items = [{ heading: 'Matric', percent: '0.40' }, { heading: 'Diploma', percent: '0.31' }, { heading: 'Degree', percent: '0.29' }]
+    items = [{ heading: 'Matric', percent: '0.34' }, { heading: 'Diploma', percent: '0.31' }, { heading: 'Degree', percent: '0.29' }]
   } else if (selectedOption === 'Geography') {
     //Change value when dropdown is on 'Geography'
     items = [{ heading: 'Urban', percent: '0.40' }, { heading: 'Rural', percent: '0.33' }, { heading: 'Suburb', percent: '0.26' }]
@@ -96,7 +96,7 @@ function Dashboard() {
                 <div key={index} className='card-container' style={{ flex: '0 0 50%' }}>
                   <div className='card'>
                     <div className='card-header'><p>{item.heading}</p></div>
-                    <div className='card-percentage'><p>0.87</p></div>
+                    <div className='card-percentage'><p>{item.percent}</p></div>
                     <div className='card-options'>
                       <div className='card-option1'><p className='card-option-header'>Matric</p></div>
                       <div className='card-option3'><p className='card-option-header'>Diploma</p></div>

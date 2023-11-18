@@ -75,10 +75,10 @@ function Accuracy() {
           <h1 className="system-name">Employment</h1>
         </div>
         <div className="menu-options">
-          <div style={{display:'flex',alignItems:'center'}}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/">Dashboard</a></div>
-          <div style={{display:'flex',alignItems:'center'}}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy" style={optionColor}>Accuracy</a></div>
-          <div style={{display:'flex',alignItems:'center'}}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations">Visualisations</a></div>
-          <div style={{display:'flex',alignItems:'center'}}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/">Dashboard</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy" style={optionColor}>Accuracy</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations">Visualisations</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
         </div>
       </div>
       <div className="right-panel">
@@ -106,16 +106,17 @@ function Accuracy() {
                     <div className='card-header'><p>{item.heading}</p></div>
                     <div className='card-percentage'><p>{item.percent}</p></div>
                     <div className='card-options'>
-                      <div className='card-option1'><p className='card-option-header'>Matric</p></div>
-                      <div className='card-option3'><p className='card-option-header'>Diploma</p></div>
-                      <div className='card-option2'><p className='card-option-header'>Degree</p></div></div>
+                      {/* <div className='card-option1'><p className='card-option-header'>2021</p></div>
+                      <div className='card-option3'><p className='card-option-header'>2022</p></div>
+                      <div className='card-option2'><p className='card-option-header'>2023</p></div> */}
+                    </div>
                   </div>
                 </div>
               ))
             }
             <div className='model-info' style={{ marginLeft: 'auto', marginRight: 'auto' }}>
               <img src={info} alt="info" className="logo" />
-              <p style={{margin:'0'}}>{modelInfo}</p>
+              <p style={{ margin: '0' }}>{modelInfo}</p>
             </div>
             <div style={{ marginLeft: 'auto', marginRight: 'auto', padding: '18px' }}>
               <div className='btn-view-mdl' onClick={handleClick}>View Best Model</div>
