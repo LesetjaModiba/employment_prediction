@@ -33,7 +33,7 @@ import Accuracy from './Components/Accuracy';
 import Dataset from './Components/Dataset';
 import Visualisations from './Components/Visualisations';
 import BestModel from './Components/BestModel';
-
+import Prediction from './Components/Prediction';
 function App() {
   return (
     <Router>
@@ -43,6 +43,7 @@ function App() {
         <Route path="/dataset" element={<Dataset />} />
         <Route path="/visualisations" element={<Visualisations />} />
         <Route path="/bestmodel" element={<BestModel />} />
+        <Route path="/Prediction" element={<Prediction />} />
       </Routes>
     </Router>
   );
