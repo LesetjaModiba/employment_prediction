@@ -1,13 +1,15 @@
 // src/Components/Dashboard.js
 import logo from '../logo.svg';
-import info from '../Images/info.png';
+// import info from '../Images/info.png';
 import dataset from '../Images/dataset.png';
 import accuracy from '../Images/percent.png';
 import dashboard from '../Images/dashboard (1).png';
 import visual from '../Images/pie-chart.png';
 import React from 'react';
 import '../Style/layout.css'; // Import the stylesheet
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import csvtojson from 'csvtojson';
+import Papa from 'papaparse';
 
 function Dashboard() {
 
@@ -17,9 +19,6 @@ function Dashboard() {
   //Declare Variables
   const [selectedOption, setSelectedOption] = useState('');
 
-  //Initial value when dropdown is on 'Province'
-  var items = [{ heading: 'Limpopo', percent: '0.36' }, { heading: 'Gauteng', percent: '0.46' }, { heading: 'Free State', percent: '0.13' }, { heading: 'North West', percent: '0.36' }, { heading: 'Limpopo', percent: '0.36' }];
-
   //On change function for the dropdown
   const handleChange = (event) => {
     const selectedValue = event.target.value;
@@ -27,36 +26,226 @@ function Dashboard() {
     console.log(`Selected option: ${selectedValue}`);
   };
 
-   //Filter data on the dropdown
-  if (selectedOption === 'Education') {
-    //Change value when dropdown is on 'Education'
-    items = [{ heading: 'Matric', percent: '0.34' }, { heading: 'Diploma', percent: '0.31' }, { heading: 'Degree', percent: '0.29' }]
-  } else if (selectedOption === 'Geography') {
-    //Change value when dropdown is on 'Geography'
-    items = [{ heading: 'Urban', percent: '0.40' }, { heading: 'Rural', percent: '0.33' }, { heading: 'Suburb', percent: '0.26' }]
+  const [csvData, setCsvData] = useState([]);
+  const [jsonData, setJsonData] = useState([]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+
+  //       const response = await fetch('http://localhost:4000/get-csv-data');
+  //       // Replace 'YOUR_SHAREABLE_LINK' with the actual shareable link of your CSV file
+  //       // const response = await fetch('https://drive.google.com/file/d/1bs9TrkxSQe_RBK_ATL12-8EQx7YUJluv/view');
+
+  //       if (response.ok) {
+  //         const data = await response.text();
+  //         // Process or set the CSV data in the state
+  //         setCsvData(data);
+
+  //           // Convert CSV to JSON
+  //           const jsonArray = await csvtojson().fromString(data);
+  //           // console.log(jsonArray)
+
+  //           // Set the JSON data in the state
+  //           setJsonData(jsonArray);
+
+  //       } else {
+  //         console.error('Failed to fetch CSV file:', response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  //Fetch the csv file
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        const response = await fetch('/random_forest.csv'); // Relative path to the CSV file
+        const csvData = await response.text();
+
+        Papa.parse(csvData, {
+          header: true, // The first row in CSV is the header
+          complete: (result) => {
+            setJsonData(result.data);
+          },
+          error: (error) => {
+            console.error('Error parsing CSV:', error);
+          },
+        });
+      } catch (error) {
+        console.error('Error fetching CSV data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  // console.log(csvData)
+  // console.log(jsonData)
+  var totalEmployed = [];
+
+  var sumMatric = 0, sumDegree = 0, sumDiploma = 0;
+  var matricPercent = 0, degreePercent = 0, diplomaPercent = 0;
+
+  var sumSuburb = 0, sumUrban = 0, sumRural = 0;
+  var suburbPercent = 0, urbanPercent = 0, ruralPercent = 0;
+
+  var sumGP = 0, sumL = 0, sumKZN = 0, sumNW = 0, sumFS = 0, sumWC = 0, sumEC = 0, sumMP = 0, sumNC = 0;
+  var gpPercent = 0, lPercent = 0, kznPercent = 0, nwPercent = 0, fsPercent = 0, wcPercent = 0, ecPercent = 0, ncPercent = 0, mpPercent = 0;
+
+
+
+  //Assign only positive outcomes to totalEmployed
+  for (var i = 0; i < jsonData.length; i++) {
+    if (jsonData[i].Target == 1) {
+      totalEmployed[i] = jsonData[i];
+    }
   }
 
-  //Design the predictions table
-  // var table = <table className='prediction-table'><th>PersonId</th><th>Education</th><th>Province</th><th>Geography</th><th>Employed</th></table>;
-  var rows = [{ personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-              { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' }
-             ];
+  //Calculate the percentage of employment for each category
+  for (var i = 0; i < jsonData.length; i++) {
+    // jsonData.push({"Education":""})
+    //Calculate for Educational Level
+    if (jsonData[i].Matric > 0) {
+      sumMatric++;
+      jsonData[i]["Education"] = "Matric"
+    }
+    if (jsonData[i].Degree > 0) {
+      sumDegree++;
+      jsonData[i]["Education"] = "Degree"
+    }
+    if (jsonData[i].Dploma > 0) {
+      sumDiploma++;
+      console.log(sumDiploma)
+      jsonData[i]["Education"] = "Diploma"
+    }
 
+    //Calculate for Geography
+    if (jsonData[i].Suburb > 0) {
+      sumSuburb++;
+      jsonData[i]["Geography"] = "Suburb"
+    }
+    if (jsonData[i].Urban > 0) {
+      sumUrban++;
+      jsonData[i]["Geography"] = "Urban"
+    }
+    if (jsonData[i].sumRural > 0) {
+      sumRural++;
+      jsonData[i]["Geography"] = "Rural"
+    }
+
+    //Calculate for Province
+    if (jsonData[i].Gauteng > 0) {
+      sumGP++;
+      jsonData[i]["Province"] = "Gauteng"
+    }
+    if (jsonData[i].Limpopo > 0) {
+      sumL++;
+      jsonData[i]["Province"] = "Limpopo"
+    }
+    if (jsonData[i].Free_state > 0) {
+      sumFS++;
+      jsonData[i]["Province"] = "Free State"
+    }
+    if (jsonData[i].Mpumalanga > 0) {
+      sumMP++;
+      jsonData[i]["Province"] = "Mpumalanga"
+    }
+    if (jsonData[i].kzn > 0) {
+      sumKZN++;
+      jsonData[i]["Province"] = "KZN"
+    }
+    if (jsonData[i].North_west > 0) {
+      sumNW++;
+      jsonData[i]["Province"] = "North West"
+    }
+    if (jsonData[i].Northern_cape > 0) {
+      sumNC++;
+      jsonData[i]["Province"] = "Northern Cape"
+    }
+    if (jsonData[i].Western_cape > 0) {
+      sumWC++;
+      jsonData[i]["Province"] = "Western Cape"
+    }
+
+
+    // if(jsonData[i].target > 0){
+    //   jsonData.target = "Employed"
+    // }else{
+    //   jsonData[i].target = "Unemployed"
+    // }
+  }
+  //Assign the percentages for educational levels
+  matricPercent = ((sumMatric / totalEmployed.length) * 100).toFixed(2);
+  degreePercent = ((sumDegree / totalEmployed.length) * 100).toFixed(2);
+  diplomaPercent = ((sumDiploma / totalEmployed.length) * 100).toFixed(2);
+
+  //Assign the percentages for Geographical areas
+  suburbPercent = ((sumSuburb / totalEmployed.length) * 100).toFixed(2);
+  urbanPercent = ((sumUrban / totalEmployed.length) * 100).toFixed(2);
+  ruralPercent = ((sumRural / totalEmployed.length) * 100).toFixed(2);
+
+  //Assign the percentages for Province
+  gpPercent = ((sumGP / totalEmployed.length) * 100).toFixed(2);
+  lPercent = ((sumL / totalEmployed.length) * 100).toFixed(2);
+  fsPercent = ((sumFS / totalEmployed.length) * 100).toFixed(2);
+  nwPercent = ((sumNW / totalEmployed.length) * 100).toFixed(2);
+  ecPercent = ((sumEC / totalEmployed.length) * 100).toFixed(2);
+  wcPercent = ((sumWC / totalEmployed.length) * 100).toFixed(2);
+  kznPercent = ((sumKZN / totalEmployed.length) * 100).toFixed(2);
+  mpPercent = ((sumMP / totalEmployed.length) * 100).toFixed(2);
+  ncPercent = ((sumNC / totalEmployed.length) * 100).toFixed(2);
+
+  console.log(fsPercent)
+  //Design the predictions table
+
+  //Convert dummy variables into categorical variables
+  // for(var i =0; i<jsonData.length; i++){
+  //   if(jsonData[i].Matric ==)
+  // }
+  // var table = <table className='prediction-table'><th>PersonId</th><th>Education</th><th>Province</th><th>Geography</th><th>Employed</th></table>;
+  var rows = jsonData;
+
+  //Filter criteria for education
+  var education = ["Matric", "Degree", "Diploma"];
+  var edPercentObj = { "Matric": matricPercent, "Degree": degreePercent, "Diploma": diplomaPercent }
+  // Filter criteria for geography
+  var geography = ["Suburb", "Urban"];//, "Rural"
+  var geoPercentObj = { "Suburb": suburbPercent, "Urban": urbanPercent, "Rural": ruralPercent }
+  // Filter criteria for geography
+  var province = ["Gauteng", "Free State", "Limpopo","KZN", "North West","Northern Cape","Western Cape","Eastern Cape", "Mpumalanga"];//, "Rural"
+  var provPercentObj = { "Gauteng": gpPercent, "Free State": fsPercent, "KZN": kznPercent, "Limpopo":lPercent, "North West":nwPercent, "Northern Cape":ncPercent, "Eastern Cape":ecPercent, "Western Cape":wcPercent,"Mpumalanga":mpPercent }
+  var items = [];
+    for (var j = 0; j < province.length; j++) {
+      items.push({ "heading": province[j], "percent": provPercentObj[province[j]] });
+    }
   
+  //Initial value when dropdown is on 'Province'
+  // var items = [{ heading: 'Limpopo', percent: '0.36' }, { heading: 'Gauteng', percent: '0.46' }, { heading: 'Free State', percent: '0.13' }, { heading: 'North West', percent: '0.36' }, { heading: 'Limpopo', percent: '0.36' }];
+ 
+  var title = "Province"
+ 
+  //Filter data on the dropdown
+  if (selectedOption === 'Education') {
+    //Change value when dropdown is on 'Education'
+    items = [];
+    title = "Educational Level"
+    for (var j = 0; j < education.length; j++) {
+      items.push({ "heading": education[j], "percent": edPercentObj[education[j]] });
+    }
+    console.log(items)
+  } else if (selectedOption === 'Geography') {
+    //Change value when dropdown is on 'Geography'
+    title = "Geographical Area"
+    items = [];
+    for (var j = 0; j < geography.length; j++) {
+      items.push({ "heading": geography[j], "percent": geoPercentObj[geography[j]] });
+    }
+  }
+
 
   return (
     <div className="layout">
@@ -66,17 +255,17 @@ function Dashboard() {
           <h1 className="system-name">Employment</h1>
         </div>
         <div className="menu-options">
-        <div style={{display:'flex',alignItems:'center'}}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/" style={optionColor}>Dashboard</a></div>
-          <div style={{display:'flex',alignItems:'center'}}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy">Accuracy</a></div>
-          <div style={{display:'flex',alignItems:'center'}}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations">Visualisations</a></div>
-          <div style={{display:'flex',alignItems:'center'}}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/" style={optionColor}>Dashboard</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy">Accuracy</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations">Visualisations</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
         </div>
       </div>
 
       <div className="right-panel">
         <div className="header">
           <div className='top-left'>
-            <h3>Employment Rates Per Province</h3>
+            <h3>Employment Rates Per {title}</h3>
           </div>
           <div className="top-right">
             {/* Dropdown */}
@@ -108,16 +297,16 @@ function Dashboard() {
           </div>
           <div className='table-container'>
             <table className='prediction-table'>
-              <tr>
-                <th>PersonId</th><th>Education</th><th>Province</th><th>Geography</th><th>Employed</th>
-              </tr>
-                <tbody>
-                {rows.map((row,pIndex)=>(
+              <tbody>
+                <tr>
+                  <th>Education</th><th>Province</th><th>Geography</th><th>Target</th><th>Status</th>
+                </tr>
+                {rows.map((row, pIndex) => (
                   <tr key={pIndex}>
-                  <td>{row.personId}</td><td>{row.education}</td><td>{row.province}</td><td>{row.geography}</td><td>{row.employed}</td>
+                    <td>{row.Education ? row.Education : "Unknown"}</td><td>{row.Province}</td><td>{row.Geography}</td><td>{row.Target}</td><td>{row.Target == 1 ? "employed" : "Unemployed"}</td>
                   </tr>
                 ))}
-                </tbody>
+              </tbody>
             </table>
           </div>
         </div>

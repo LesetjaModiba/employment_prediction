@@ -8,16 +8,23 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
+    "buffer": "^6.0.3",
     "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
     "d3": "^7.8.5",
     "express": "^4.18.2",
+    "googleapi": "^1.0.2",
     "googleapis": "^128.0.0",
+    "multer": "^1.4.5-lts.1",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
+  },
+  "fallback": {
+    "buffer": "require.resolve('buffer')"
   },
   "scripts": {
     "start": "react-scripts start",

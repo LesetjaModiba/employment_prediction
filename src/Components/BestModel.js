@@ -17,9 +17,6 @@ function BestModel() {
     //Declare Variables
     const [selectedOption, setSelectedOption] = useState('');
 
-    //Initial value when dropdown is on 'Classification report'
-    var items = { heading: 'Classification Report'};
-
     //On change function for the dropdown
     const handleChange = (event) => {
         const selectedValue = event.target.value;
@@ -27,13 +24,16 @@ function BestModel() {
         console.log(`Selected option: ${selectedValue}`);
     };
 
-    var modelInfo = 'After evaluating three models on your dataset, the results indicate that the Neural Networks model outperforms the others with an accuracy of 84%, followed by Logistic Regression at 80%, and Random Forest at 75%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
-
+    //Initial value when dropdown is on 'Classification report'
+    var items = { heading: 'Classification Report' };
+    var modelInfo = 'After evaluating three models on your dataset, the results indicate that the Random Forest model outperforms the others with an accuracy of 83%, followed by Logistic Regression at 80%, and Neural Networks at 79%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
+    var fileUrl = 'https://drive.google.com/file/d/1-3pOStTHlN7eqhm0MAF9AaGX0ssZYaE_/preview';
     //Filter data on the dropdown
     if (selectedOption === 'Confusion Matrix') {
-        //Change value when dropdown is on 'Education'
-        items = { heading: 'Confusion Matrix'}
-        modelInfo = 'After evaluating three models on your dataset, the results indicate that the Neural Networks model outperforms the others with an accuracy of 84%, followed by Logistic Regression at 80%, and Random Forest at 75%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
+        //Change value when dropdown is on 'Confusion Matrix'
+        items = { heading: 'Confusion Matrix' }
+        modelInfo = 'After evaluating three models on your dataset, the results indicate that the Random Forest model outperforms the others with an accuracy of 83%, followed by Logistic Regression at 80%, and Neural Networks at 79%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
+        fileUrl = 'https://drive.google.com/file/d/1-5oB98-UQFC0MB0gh5cGCjMvf1_5FhcI/preview';
     }
 
 
@@ -54,7 +54,7 @@ function BestModel() {
             <div className="right-panel">
                 <div className="header">
                     <div className='top-left'>
-                        <h3>Best Model: Neural Networks</h3>
+                        <h3>Best Model: Random Forest</h3>
                     </div>
                     <div className="top-right">
                         {/* Dropdown */}
@@ -68,12 +68,12 @@ function BestModel() {
                 <div style={{ display: 'flex' }}>
                     <div className='card-container-accuracy' style={{ width: '1100px', height: '640px', overflow: 'auto' }}>
                         <div className='card-container' style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                            <div className='card'  style={{ width:'650px'}}>
+                            <div className='card' style={{ width: '650px', height: '400px','display':'flex','justifyContent':'center','flexDirection':'column'  }}>
                                 <div className='card-header'><p>{items.heading}</p></div>
-                                <div className='card-img'><p>img</p></div>
+                                <iframe src={fileUrl} width="640" height="345" allow="autoplay" style={{'marginLeft':'auto', 'marginRight':'auto'}}></iframe>
                             </div>
                         </div>
-                        <div className='model-info' style={{ marginLeft: 'auto', marginRight: 'auto', width: '600px',height:'200px' }}>
+                        <div className='model-info' style={{ marginLeft: 'auto', marginRight: 'auto', width: '600px', height: '200px' }}>
                             <img src={info} alt="info" className="logo" />
                             <p style={{ margin: '0' }}>{modelInfo}</p>
                         </div>

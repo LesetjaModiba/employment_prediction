@@ -1,30 +1,4 @@
-// import logo from './logo.svg';
-// import './App.css';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
@@ -33,7 +7,7 @@ import Accuracy from './Components/Accuracy';
 import Dataset from './Components/Dataset';
 import Visualisations from './Components/Visualisations';
 import BestModel from './Components/BestModel';
-import Prediction from './Components/Prediction';
+// import Prediction from './Components/Prediction';
 function App() {
   return (
     <Router>
@@ -43,7 +17,7 @@ function App() {
         <Route path="/dataset" element={<Dataset />} />
         <Route path="/visualisations" element={<Visualisations />} />
         <Route path="/bestmodel" element={<BestModel />} />
-        <Route path="/Prediction" element={<Prediction />} />
+        {/* <Route path="/Prediction" element={<Prediction />} /> */}
       </Routes>
     </Router>
   );

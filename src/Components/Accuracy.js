@@ -7,7 +7,8 @@ import dashboard from '../Images/dashboard (1).png';
 import visual from '../Images/pie-chart.png';
 import React from 'react';
 import '../Style/layout.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Papa from 'papaparse';
 import { useNavigate } from 'react-router-dom';
 
 function Accuracy() {
@@ -17,9 +18,8 @@ function Accuracy() {
 
   //Declare Variables
   const [selectedOption, setSelectedOption] = useState('');
+  var [jsonData, setJsonData] = useState([]);
 
-  //Initial value when dropdown is on 'Province'
-  var items = [{ heading: 'Logistic Regression', percent: '0.76' }];
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -34,38 +34,101 @@ function Accuracy() {
     console.log(`Selected option: ${selectedValue}`);
   };
 
-  var modelInfo = 'Logistic Regression: 80% -  Our model excels with an 80% accuracy rate, making it a reliable tool for data-driven predictions. We’re continuously working to improve its accuracy further.';
+    //Convert data from dummy valiables to categorical variables
+    for (var i = 0; i < jsonData.length; i++) {
+      //Convert educational level
+      if (jsonData[i].Matric > 0) {
+        jsonData[i]["Education"] = "Matric"
+      }
+      if (jsonData[i].Degree > 0) {
+        jsonData[i]["Education"] = "Degree"
+      }
+      if (jsonData[i].Dploma > 0) {
+        jsonData[i]["Education"] = "Diploma"
+      }
+  
+      //Convert Geography
+      if (jsonData[i].Suburb > 0) {
+        jsonData[i]["Geography"] = "Suburb"
+      }
+      if (jsonData[i].Urban > 0) {
+        jsonData[i]["Geography"] = "Urban"
+      }
+      if (jsonData[i].sumRural > 0) {
+        jsonData[i]["Geography"] = "Rural"
+      }
+  
+      //Convert Province
+      if (jsonData[i].Gauteng > 0) {
+        jsonData[i]["Province"] = "Gauteng"
+      }
+      if (jsonData[i].Limpopo > 0) {
+        jsonData[i]["Province"] = "Limpopo"
+      }
+      if (jsonData[i].Free_state > 0) {
+        jsonData[i]["Province"] = "Free State"
+      }
+      if (jsonData[i].Mpumalanga > 0) {
+        jsonData[i]["Province"] = "Mpumalanga"
+      }
+      if (jsonData[i].kzn > 0) {
+        jsonData[i]["Province"] = "KZN"
+      }
+      if (jsonData[i].North_west > 0) {
+        jsonData[i]["Province"] = "North West"
+      }
+      if (jsonData[i].Northern_cape > 0) {
+        jsonData[i]["Province"] = "Northern Cape"
+      }
+      if (jsonData[i].Western_cape > 0) {
+        jsonData[i]["Province"] = "Western Cape"
+      }
+  
+    }
+
+  //Initial value when dropdown is on 'Province'
+  var items = [{ heading: 'Logistic Regression', percent: '0.80' }];
+  var modelInfo = 'Logistic Regression: 80% - Our model is performing well and making accurate predictions for most cases. We’re continuously working to improve its accuracy further.';
 
   //Filter data on the dropdown
   if (selectedOption === 'Random Forest') {
     //Change value when dropdown is on 'Education'
-    items = [{ heading: 'Random Forest', percent: '0.78' }]
-    modelInfo = 'Random Forest : 75% - Our model is performing well and making accurate predictions for most cases. We’re continuously working to improve its accuracy further.';
+    items = [{ heading: 'Random Forest', percent: '0.83' }]
+    modelInfo = 'Random Forest : 83% - Our model excels with an 80% accuracy rate, making it a reliable tool for data-driven predictions. We’re continuously working to improve its accuracy further.';
   } else if (selectedOption === 'Neural Networks') {
     //Change value when dropdown is on 'Geography'
-    items = [{ heading: 'Neural Networks', percent: '0.76' }]
-    modelInfo = 'Neural Networks: 84% - Our model is performing well and making accurate predictions for most cases. We’re continuously working to improve its accuracy further.';
+    items = [{ heading: 'Neural Networks', percent: '0.79' }]
+    modelInfo = 'Neural Networks: 79% - Our model is performing well and making accurate predictions for most cases. We’re continuously working to improve its accuracy further.';
   }
 
+  //Fetch the csv file
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        const response = await fetch('/random_forest.csv'); // Relative path to the CSV file
+        const csvData = await response.text();
+
+        Papa.parse(csvData, {
+          header: true, // The first row in CSV is the header
+          complete: (result) => {
+            setJsonData(result.data);
+          },
+          error: (error) => {
+            console.error('Error parsing CSV:', error);
+          },
+        });
+      } catch (error) {
+        console.error('Error fetching CSV data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   //Design the predictions table
   // var table = <table className='prediction-table'><th>PersonId</th><th>Education</th><th>Province</th><th>Geography</th><th>Employed</th></table>;
-  var rows = [{ personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' },
-  { personId: 'id001', education: 'Matric', province: 'Limpopo', geography: 'rural', employed: 'No' }
-  ];
+  var rows = jsonData;
+  
 
   return (
     <div className="layout">
@@ -125,16 +188,17 @@ function Accuracy() {
           </div>
           <div className='table-container'>
             <table className='prediction-table'>
-              <tr>
-                <th>PersonId</th><th>Education</th><th>Province</th><th>Geography</th><th>Employed</th>
-              </tr>
-
-              {rows.map((row, pIndex) => (
-                <tr key={pIndex}>
-                  <td>{row.personId}</td><td>{row.education}</td><td>{row.province}</td><td>{row.geography}</td><td>{row.employed}</td>
+              <tbody>
+                <tr>
+                  <th>PersonId</th><th>Education</th><th>Province</th><th>Geography</th><th>Employed</th>
                 </tr>
-              ))}
 
+                {rows.map((row, pIndex) => (
+                  <tr key={pIndex}>
+                    <td>{row.Education ? row.Education : "Unknown"}</td><td>{row.Province}</td><td>{row.Geography}</td><td>{row.Target}</td><td>{row.Target == 1 ? "employed" : "Unemployed"}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
