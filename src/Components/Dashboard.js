@@ -87,8 +87,8 @@ function Dashboard() {
   // console.log(jsonData)
   var totalEmployed = [];
 
-  var sumMatric = 0, sumDegree = 0, sumDiploma = 0;
-  var matricPercent = 0, degreePercent = 0, diplomaPercent = 0;
+  var sumMatric = 0, sumDegree = 0, sumDiploma = 0, sumUnknown = 0;
+  var matricPercent = 0, degreePercent = 0, diplomaPercent = 0, percentUnknown = 0;
 
   var sumSuburb = 0, sumUrban = 0, sumRural = 0;
   var suburbPercent = 0, urbanPercent = 0, ruralPercent = 0;
@@ -104,24 +104,32 @@ function Dashboard() {
       totalEmployed[i] = jsonData[i];
     }
   }
+  console.log('total employed', totalEmployed.length)
 
   //Calculate the percentage of employment for each category
   for (var i = 0; i < jsonData.length; i++) {
     // jsonData.push({"Education":""})
     //Calculate for Educational Level
-    if (jsonData[i].Matric > 0) {
+    if (jsonData[i].Matric > 0 && jsonData[i].Degree <= 0 && jsonData[i].Dploma <= 0) {
       sumMatric++;
       jsonData[i]["Education"] = "Matric"
     }
-    if (jsonData[i].Degree > 0) {
+    if (jsonData[i].Degree > 0 && jsonData[i].Matric > 0) {
       sumDegree++;
       jsonData[i]["Education"] = "Degree"
     }
-    if (jsonData[i].Dploma > 0) {
+    if (jsonData[i].Dploma > 0 && jsonData[i].Matric > 0) {
       sumDiploma++;
-      console.log(sumDiploma)
       jsonData[i]["Education"] = "Diploma"
     }
+    if (jsonData[i].Matric <= 0 && jsonData[i].Degree <= 0 && jsonData[i].Dploma <= 0) {
+      sumUnknown++;
+      jsonData[i]["Education"] = "No Qualifcation"
+    }
+    // if(jsonData[i]["Education"] != "Diploma" && jsonData[i].Matric > 0)
+    // {
+    //   sumDegree++;
+    // }
 
     //Calculate for Geography
     if (jsonData[i].Suburb > 0) {
@@ -132,7 +140,7 @@ function Dashboard() {
       sumUrban++;
       jsonData[i]["Geography"] = "Urban"
     }
-    if (jsonData[i].sumRural > 0) {
+    if (jsonData[i].Rural <= 0 && jsonData[i].Suburb <= 0 && jsonData[i].Urban <= 0) {
       sumRural++;
       jsonData[i]["Geography"] = "Rural"
     }
@@ -182,6 +190,7 @@ function Dashboard() {
   matricPercent = ((sumMatric / totalEmployed.length) * 100).toFixed(2);
   degreePercent = ((sumDegree / totalEmployed.length) * 100).toFixed(2);
   diplomaPercent = ((sumDiploma / totalEmployed.length) * 100).toFixed(2);
+  percentUnknown = ((sumUnknown / totalEmployed.length) * 100).toFixed(2);
 
   //Assign the percentages for Geographical areas
   suburbPercent = ((sumSuburb / totalEmployed.length) * 100).toFixed(2);
@@ -199,7 +208,7 @@ function Dashboard() {
   mpPercent = ((sumMP / totalEmployed.length) * 100).toFixed(2);
   ncPercent = ((sumNC / totalEmployed.length) * 100).toFixed(2);
 
-  console.log(fsPercent)
+  console.log(jsonData)
   //Design the predictions table
 
   //Convert dummy variables into categorical variables
@@ -210,10 +219,10 @@ function Dashboard() {
   var rows = jsonData;
 
   //Filter criteria for education
-  var education = ["Matric", "Degree", "Diploma"];
-  var edPercentObj = { "Matric": matricPercent, "Degree": degreePercent, "Diploma": diplomaPercent }
+  var education = ["Matric", "Degree", "Diploma","No Qualification"];
+  var edPercentObj = { "Matric": matricPercent, "Degree": degreePercent, "Diploma": diplomaPercent, "No Qualification":percentUnknown }
   // Filter criteria for geography
-  var geography = ["Suburb", "Urban"];//, "Rural"
+  var geography = ["Suburb", "Urban","Rural"];//, "Rural"
   var geoPercentObj = { "Suburb": suburbPercent, "Urban": urbanPercent, "Rural": ruralPercent }
   // Filter criteria for geography
   var province = ["Gauteng", "Free State", "Limpopo","KZN", "North West","Northern Cape","Western Cape","Eastern Cape", "Mpumalanga"];//, "Rural"
@@ -236,7 +245,7 @@ function Dashboard() {
     for (var j = 0; j < education.length; j++) {
       items.push({ "heading": education[j], "percent": edPercentObj[education[j]] });
     }
-    console.log(items)
+    // console.log(items)
   } else if (selectedOption === 'Geography') {
     //Change value when dropdown is on 'Geography'
     title = "Geographical Area"
@@ -303,7 +312,7 @@ function Dashboard() {
                 </tr>
                 {rows.map((row, pIndex) => (
                   <tr key={pIndex}>
-                    <td>{row.Education ? row.Education : "Unknown"}</td><td>{row.Province}</td><td>{row.Geography}</td><td>{row.Target}</td><td>{row.Target == 1 ? "employed" : "Unemployed"}</td>
+                    <td>{row.Education ? row.Education : "No Qualification"}</td><td>{row.Province}</td><td>{row.Geography}</td><td>{row.Target}</td><td>{row.Target == 1 ? "employed" : "Unemployed"}</td>
                   </tr>
                 ))}
               </tbody>
