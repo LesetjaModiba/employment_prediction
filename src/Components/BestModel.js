@@ -26,13 +26,13 @@ function BestModel() {
 
     //Initial value when dropdown is on 'Classification report'
     var items = { heading: 'Classification Report' };
-    var modelInfo = 'After evaluating three models on your dataset, the results indicate that the Random Forest model outperforms the others with an accuracy of 83%, followed by Logistic Regression at 80%, and Neural Networks at 79%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
+    var modelInfo = 'After evaluating three models on our dataset, the results indicate that the Random Forest model outperforms the others with an accuracy of 83%, followed by Logistic Regression at 80%, and Neural Networks at 79%. Therefore, the Random Forest model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
     var fileUrl = 'https://drive.google.com/file/d/1-3pOStTHlN7eqhm0MAF9AaGX0ssZYaE_/preview';
     //Filter data on the dropdown
     if (selectedOption === 'Confusion Matrix') {
         //Change value when dropdown is on 'Confusion Matrix'
         items = { heading: 'Confusion Matrix' }
-        modelInfo = 'After evaluating three models on your dataset, the results indicate that the Random Forest model outperforms the others with an accuracy of 83%, followed by Logistic Regression at 80%, and Neural Networks at 79%. Therefore, the Neural Networks model is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
+        modelInfo = 'After evaluating three models on our dataset, the results indicate that the Random Forest model outperforms the others with an accuracy of 83%, followed by Logistic Regression at 80%, and Neural Networks at 79%. Therefore, the Random Forest is recommended as it demonstrates the highest accuracy and appears to be the most suitable for our dataset.';
         fileUrl = 'https://drive.google.com/file/d/1-5oB98-UQFC0MB0gh5cGCjMvf1_5FhcI/preview';
     }
 

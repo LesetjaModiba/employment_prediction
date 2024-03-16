@@ -28,61 +28,61 @@ function Dashboard() {
 
   const [csvData, setCsvData] = useState([]);
   const [jsonData, setJsonData] = useState([]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
 
-  //       const response = await fetch('http://localhost:4000/get-csv-data');
-  //       // Replace 'YOUR_SHAREABLE_LINK' with the actual shareable link of your CSV file
-  //       // const response = await fetch('https://drive.google.com/file/d/1bs9TrkxSQe_RBK_ATL12-8EQx7YUJluv/view');
-
-  //       if (response.ok) {
-  //         const data = await response.text();
-  //         // Process or set the CSV data in the state
-  //         setCsvData(data);
-
-  //           // Convert CSV to JSON
-  //           const jsonArray = await csvtojson().fromString(data);
-  //           // console.log(jsonArray)
-
-  //           // Set the JSON data in the state
-  //           setJsonData(jsonArray);
-
-  //       } else {
-  //         console.error('Failed to fetch CSV file:', response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  //Fetch the csv file
   useEffect(() => {
     const fetchData = async () => {
       try {
 
-        const response = await fetch('/random_forest.csv'); // Relative path to the CSV file
-        const csvData = await response.text();
+        const response = await fetch('http://localhost:4000/get-csv-data');
+        // const response = await fetch('https://drive.google.com/file/d/1bs9TrkxSQe_RBK_ATL12-8EQx7YUJluv/view');
 
-        Papa.parse(csvData, {
-          header: true, // The first row in CSV is the header
-          complete: (result) => {
-            setJsonData(result.data);
-          },
-          error: (error) => {
-            console.error('Error parsing CSV:', error);
-          },
-        });
+        if (response.ok) {
+          const data = await response.text();
+          // Process or set the CSV data in the state
+          setCsvData(data);
+
+            // Convert CSV to JSON
+            const jsonArray = await csvtojson().fromString(data);
+            // console.log(jsonArray)
+
+            // Set the JSON data in the state
+            setJsonData(jsonArray);
+
+        } else {
+          console.error('Failed to fetch CSV file:', response.statusText);
+        }
       } catch (error) {
-        console.error('Error fetching CSV data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
   }, []);
+
+  //Fetch the csv file
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+
+  //       const response = await fetch('/random_forest.csv'); // Relative path to the CSV file
+  //       const csvData = await response.text();
+
+  //       Papa.parse(csvData, {
+  //         header: true, // The first row in CSV is the header
+  //         complete: (result) => {
+  //           setJsonData(result.data);
+  //         },
+  //         error: (error) => {
+  //           console.error('Error parsing CSV:', error);
+  //         },
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching CSV data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
   // console.log(csvData)
   // console.log(jsonData)
   var totalEmployed = [];
@@ -126,10 +126,6 @@ function Dashboard() {
       sumUnknown++;
       jsonData[i]["Education"] = "No Qualifcation"
     }
-    // if(jsonData[i]["Education"] != "Diploma" && jsonData[i].Matric > 0)
-    // {
-    //   sumDegree++;
-    // }
 
     //Calculate for Geography
     if (jsonData[i].Suburb > 0) {
@@ -294,7 +290,7 @@ function Dashboard() {
                 <div key={index} className='card-container' style={{ flex: '0 0 50%' }}>
                   <div className='card'>
                     <div className='card-header'><p>{item.heading}</p></div>
-                    <div className='card-percentage'><p>{item.percent}</p></div>
+                    <div className='card-percentage'><p>{isNaN(item.percent)?'loading..':item.percent}</p></div>
                     <div className='card-options'>
                       <div className='card-option1'><p className='card-option-header'>Matric</p></div>
                       <div className='card-option3'><p className='card-option-header'>Diploma</p></div>

@@ -1,4 +1,4 @@
-// src/Components/Accuracy.js
+// src/Components/Visualisations.js
 import logo from '../logo.svg';
 import info from '../Images/info.png';
 import dataset from '../Images/dataset.png';
