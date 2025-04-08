@@ -5,9 +5,11 @@ import dataset from '../Images/dataset.png';
 import accuracy from '../Images/percent.png';
 import dashboard from '../Images/dashboard (1).png';
 import visual from '../Images/pie-chart.png';
+import prediction from '../Images/predicion.png'
 import React from 'react';
 import '../Style/layout.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function Visualisations() {
@@ -135,10 +137,11 @@ function Visualisations() {
             <h1 className="system-name">Employment</h1>
           </div>
           <div className="menu-options">
-            <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/">Dashboard</a></div>
-            <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy">Accuracy</a></div>
-            <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations" style={optionColor}>Visualisations</a></div>
-            <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
+            <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><Link to="/dashboard">Dashboard</Link></div>
+            <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><Link to="/accuracy">Accuracy</Link></div>
+            <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><Link to="/visualisations" style={optionColor}>Visualisations</Link></div>
+            <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><Link to="/dataset">Dataset</Link></div>
+            <div style={{ display: 'flex', alignItems: 'center' }}><img src={prediction} alt="dataset" className="menu-icon" /><Link to="/prediction">Prediction</Link></div>
           </div>
         </div>
         <div className="right-panel">
@@ -158,12 +161,12 @@ function Visualisations() {
           </div>
 
           <div style={{ display: 'flex' }}>
-            <div className='card-container-accuracy' style={{ width: '1200px', height: '640px', overflow: 'auto' }}>
-              <div className='card-container' style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                <div className='card' style={{ width: '800px', height: '400px','display':'flex','justifyContent':'center','flexDirection':'column' }}>
+            <div className='card-container-accuracy' style={{ width: '100%',maxWidth:'1000px', height: '640px', overflow: 'auto' }}>
+              <div className='card-container' style={{ width:'100%', marginTop:'-70px'}}>
+                <div style={{ marginBottom:'10px',width: '72%', height: '400px','display':'flex','justifyContent':'center','flexDirection':'column', marginLeft:'auto', marginRight:'auto' }}>
                   <div className='card-header'><p>{items.heading}</p></div>
 
-                  <iframe src={fileUrl} width="640" height="345" allow="autoplay" style={{'marginLeft':'auto', 'marginRight':'auto'}}></iframe>
+                  <iframe src={fileUrl} width="99%"  height="345" allow="autoplay" style={{'marginLeft':'auto', 'marginRight':'auto'}}></iframe>
                   {/* <button onClick={uploadFile()} >save file to drive</button> */}
                 </div>
               </div>

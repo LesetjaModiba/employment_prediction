@@ -5,11 +5,13 @@ import dataset from '../Images/dataset.png';
 import accuracy from '../Images/percent.png';
 import dashboard from '../Images/dashboard (1).png';
 import visual from '../Images/pie-chart.png';
+import prediction from '../Images/predicion.png'
 import React from 'react';
 import '../Style/layout.css';
 import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Accuracy() {
 
@@ -138,10 +140,11 @@ function Accuracy() {
           <h1 className="system-name">Employment</h1>
         </div>
         <div className="menu-options">
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/">Dashboard</a></div>
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy" style={optionColor}>Accuracy</a></div>
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations">Visualisations</a></div>
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><Link to="/dashboard">Dashboard</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><Link to="/accuracy" style={optionColor}>Accuracy</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><Link to="/visualisations">Visualisations</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><Link to="/dataset">Dataset</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={prediction} alt="dataset" className="menu-icon" /><Link to="/prediction">Prediction</Link></div>
         </div>
       </div>
       <div className="right-panel">
@@ -160,11 +163,11 @@ function Accuracy() {
         </div>
 
         <div style={{ display: 'flex' }}>
-          <div className='card-container-accuracy' style={{ width: '645px', height: '640px', overflow: 'auto' }}>
+          <div className='card-container-accuracy' style={{ width: '100%',maxWidth: '500px', height: '640px', overflow: 'auto' }}>
             {
               items.map((item, index) => (
                 // <div key={index}>This is div {item}</div>
-                <div key={index} className='card-container' style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+                <div key={index} className='card-container' style={{ width:'100%'}}>
                   <div className='card'>
                     <div className='card-header'><p>{item.heading}</p></div>
                     <div className='card-percentage'><p>{item.percent}</p></div>

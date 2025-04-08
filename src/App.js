@@ -7,17 +7,21 @@ import Accuracy from './Components/Accuracy';
 import Dataset from './Components/Dataset';
 import Visualisations from './Components/Visualisations';
 import BestModel from './Components/BestModel';
-// import Prediction from './Components/Prediction';
+import Register from './Components/Authentication/register';
+import Login from './Components/Authentication/login';
+import Prediction from './Components/Prediction';
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+      <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/accuracy" element={<Accuracy />} />
         <Route path="/dataset" element={<Dataset />} />
         <Route path="/visualisations" element={<Visualisations />} />
         <Route path="/bestmodel" element={<BestModel />} />
-        {/* <Route path="/Prediction" element={<Prediction />} /> */}
+        <Route path="/Prediction" element={<Prediction />} />
       </Routes>
     </Router>
   );

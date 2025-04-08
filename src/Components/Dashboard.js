@@ -5,14 +5,16 @@ import dataset from '../Images/dataset.png';
 import accuracy from '../Images/percent.png';
 import dashboard from '../Images/dashboard (1).png';
 import visual from '../Images/pie-chart.png';
+import prediction from '../Images/predicion.png'
 import React from 'react';
 import '../Style/layout.css'; // Import the stylesheet
 import { useEffect, useState } from 'react';
 import csvtojson from 'csvtojson';
-import Papa from 'papaparse';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
-
+  const navigate = useNavigate()
   //Set the color for the current menu option
   var optionColor = { color: '#49EB59' }
 
@@ -26,10 +28,15 @@ function Dashboard() {
     console.log(`Selected option: ${selectedValue}`);
   };
 
-  const [csvData, setCsvData] = useState([]);
+  // const [csvData, setCsvData] = useState([]);
   const [jsonData, setJsonData] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      navigate('/'); // Redirect to login if not authenticated
+    }
     const fetchData = async () => {
       try {
 
@@ -39,14 +46,14 @@ function Dashboard() {
         if (response.ok) {
           const data = await response.text();
           // Process or set the CSV data in the state
-          setCsvData(data);
+          // setCsvData(data);
 
-            // Convert CSV to JSON
-            const jsonArray = await csvtojson().fromString(data);
-            // console.log(jsonArray)
+          // Convert CSV to JSON
+          const jsonArray = await csvtojson().fromString(data);
+          // console.log(jsonArray)
 
-            // Set the JSON data in the state
-            setJsonData(jsonArray);
+          // Set the JSON data in the state
+          setJsonData(jsonArray);
 
         } else {
           console.error('Failed to fetch CSV file:', response.statusText);
@@ -57,34 +64,8 @@ function Dashboard() {
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
-  //Fetch the csv file
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-
-  //       const response = await fetch('/random_forest.csv'); // Relative path to the CSV file
-  //       const csvData = await response.text();
-
-  //       Papa.parse(csvData, {
-  //         header: true, // The first row in CSV is the header
-  //         complete: (result) => {
-  //           setJsonData(result.data);
-  //         },
-  //         error: (error) => {
-  //           console.error('Error parsing CSV:', error);
-  //         },
-  //       });
-  //     } catch (error) {
-  //       console.error('Error fetching CSV data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-  // console.log(csvData)
-  // console.log(jsonData)
   var totalEmployed = [];
 
   var sumMatric = 0, sumDegree = 0, sumDiploma = 0, sumUnknown = 0;
@@ -215,24 +196,24 @@ function Dashboard() {
   var rows = jsonData;
 
   //Filter criteria for education
-  var education = ["Matric", "Degree", "Diploma","No Qualification"];
-  var edPercentObj = { "Matric": matricPercent, "Degree": degreePercent, "Diploma": diplomaPercent, "No Qualification":percentUnknown }
+  var education = ["Matric", "Degree", "Diploma", "No Qualification"];
+  var edPercentObj = { "Matric": matricPercent, "Degree": degreePercent, "Diploma": diplomaPercent, "No Qualification": percentUnknown }
   // Filter criteria for geography
-  var geography = ["Suburb", "Urban","Rural"];//, "Rural"
+  var geography = ["Suburb", "Urban", "Rural"];//, "Rural"
   var geoPercentObj = { "Suburb": suburbPercent, "Urban": urbanPercent, "Rural": ruralPercent }
   // Filter criteria for geography
-  var province = ["Gauteng", "Free State", "Limpopo","KZN", "North West","Northern Cape","Western Cape","Eastern Cape", "Mpumalanga"];//, "Rural"
-  var provPercentObj = { "Gauteng": gpPercent, "Free State": fsPercent, "KZN": kznPercent, "Limpopo":lPercent, "North West":nwPercent, "Northern Cape":ncPercent, "Eastern Cape":ecPercent, "Western Cape":wcPercent,"Mpumalanga":mpPercent }
+  var province = ["Gauteng", "Free State", "Limpopo", "KZN", "North West", "Northern Cape", "Western Cape", "Eastern Cape", "Mpumalanga"];//, "Rural"
+  var provPercentObj = { "Gauteng": gpPercent, "Free State": fsPercent, "KZN": kznPercent, "Limpopo": lPercent, "North West": nwPercent, "Northern Cape": ncPercent, "Eastern Cape": ecPercent, "Western Cape": wcPercent, "Mpumalanga": mpPercent }
   var items = [];
-    for (var j = 0; j < province.length; j++) {
-      items.push({ "heading": province[j], "percent": provPercentObj[province[j]] });
-    }
-  
+  for (var j = 0; j < province.length; j++) {
+    items.push({ "heading": province[j], "percent": provPercentObj[province[j]] });
+  }
+
   //Initial value when dropdown is on 'Province'
   // var items = [{ heading: 'Limpopo', percent: '0.36' }, { heading: 'Gauteng', percent: '0.46' }, { heading: 'Free State', percent: '0.13' }, { heading: 'North West', percent: '0.36' }, { heading: 'Limpopo', percent: '0.36' }];
- 
+
   var title = "Province"
- 
+
   //Filter data on the dropdown
   if (selectedOption === 'Education') {
     //Change value when dropdown is on 'Education'
@@ -260,10 +241,11 @@ function Dashboard() {
           <h1 className="system-name">Employment</h1>
         </div>
         <div className="menu-options">
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><a href="/" style={optionColor}>Dashboard</a></div>
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><a href="/accuracy">Accuracy</a></div>
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><a href="/visualisations">Visualisations</a></div>
-          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><a href="/dataset">Dataset</a></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dashboard} alt="dashboard" className="menu-icon" /><Link to="/dashboard" style={optionColor}>Dashboard</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={accuracy} alt="accuracy" className="menu-icon" /><Link to="/accuracy">Accuracy</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={visual} alt="visual" className="menu-icon" /><Link to="/visualisations">Visualisations</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={dataset} alt="dataset" className="menu-icon" /><Link to="/dataset">Dataset</Link></div>
+          <div style={{ display: 'flex', alignItems: 'center' }}><img src={prediction} alt="dataset" className="menu-icon" /><Link to="/prediction">Prediction</Link></div>
         </div>
       </div>
 
@@ -283,14 +265,14 @@ function Dashboard() {
         </div>
 
         <div style={{ display: 'flex' }}>
-          <div className='card-container-container' style={{ display: 'flex', flexWrap: 'wrap', width: '645px', height: '640px', overflow: 'auto' }}>
+          <div className='card-container-container' style={{ display: 'flex', flexWrap: 'wrap', width: '100%',maxWidth:'645px', height: '640px', overflow: 'auto' }}>
             {
               items.map((item, index) => (
                 // <div key={index}>This is div {item}</div>
                 <div key={index} className='card-container' style={{ flex: '0 0 50%' }}>
                   <div className='card'>
                     <div className='card-header'><p>{item.heading}</p></div>
-                    <div className='card-percentage'><p>{isNaN(item.percent)?'loading..':item.percent}</p></div>
+                    <div className='card-percentage'><p>{isNaN(item.percent) ? 'loading..' : item.percent}</p></div>
                     <div className='card-options'>
                       <div className='card-option1'><p className='card-option-header'>Matric</p></div>
                       <div className='card-option3'><p className='card-option-header'>Diploma</p></div>
