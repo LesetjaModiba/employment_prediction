@@ -4,9 +4,11 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const tf = require("@tensorflow/tfjs-node");
+// const tf = require("@tensorflow/tfjs-node");
 const path = require("path");
 require('dotenv').config();
+const tf = require('@tensorflow/tfjs');
+require('@tensorflow/tfjs-node');
 
 const app = express();
 const PORT = 4000;
@@ -18,11 +20,41 @@ app.use(express.json()); // Parse JSON request bodies
 let model;
 let isModelLoaded = false;
 
+// Model path
+const f_name = `/Users/Isaiah/Desktop/APPS/prediction-app/Server/tfjs_model/model.json`; 
+const file_path = `file://${f_name}`;
+
+// Function for Loading the model
+async function loadModel() {
+
+  try {
+
+    const model = await tf.loadLayersModel(`${file_path}`); //loadGraphModel
+
+    console.log("model is loaded");
+
+    return model;
+
+  } catch (error) {
+
+    console.log(`failed to load tf model - ${error}`);
+
+    throw error;
+
+  }
+
+}
+
+
+// tf.input({shape: [64,32,1]})
 (async () => {
   try {
-    const modelPath = "file://" + path.join(__dirname, "tfjs_model", "model.json");
-    model = await tf.loadLayersModel(modelPath);
-    console.log("Model loaded successfully!");
+    // const modelPath = "file://" + path.join(__dirname, "tfjs_model", "model.json");
+    // model = await tf.loadLayersModel(modelPath);
+
+    // Loading the model
+    model = await loadModel()
+    console.log("Model loaded successfully! ", model);
     isModelLoaded = true;  // Indicate model is loaded
   } catch (error) {
     console.error("Error loading model:", error);
